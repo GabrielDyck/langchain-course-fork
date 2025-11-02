@@ -1,3 +1,5 @@
+import os
+
 from dotenv import load_dotenv
 from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
@@ -20,6 +22,7 @@ Musk was the largest donor in the 2024 U.S. presidential election, and is a supp
 Musk's political activities, views, and statements have made him a polarizing figure, especially following the COVID-19 pandemic. He has been criticized for making unscientific and misleading statements, including COVID-19 misinformation and promoting conspiracy theories, and affirming antisemitic, racist, and transphobic comments. His acquisition of Twitter was controversial due to a subsequent increase in hate speech and the spread of misinformation on the service. His role in the second Trump administration attracted public backlash, particularly in response to DOGE.
     """
 
+# Using {} Avoids prompt injection and ensures proper variable substitution
     summary_template = """
     given the information {information} about a person I want you to create:
     1. A short summary
@@ -31,7 +34,14 @@ Musk's political activities, views, and statements have made him a polarizing fi
     )
 
     # llm = ChatOllama(temperature=0, model="gemma3:270m")
+    # Temperature = 0 ensures deterministic output
     llm = ChatOpenAI(temperature=0, model="gpt-5")
+    # LangChain Expression Language( LCEL)
+    # how it works ? We use the pipe operator (|) to chain together different components.
+    # Here, we are chaining the prompt template with the language model.
+    # The output of the prompt template becomes the input to the language model.
+    # This allows for a modular and flexible way to build complex workflows.
+    #
     chain = summary_prompt_template | llm
 
     response = chain.invoke(input={"information": information})
