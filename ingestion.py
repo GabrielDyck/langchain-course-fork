@@ -10,7 +10,7 @@ load_dotenv()
 
 if __name__ == "__main__":
     print("Ingesting...")
-    loader = TextLoader("/Users/edenmarco/Desktop/langchain-course/mediumblog1.txt")
+    loader = TextLoader(file_path="C:\\Users\\Gabrielo\\github\\langchain-course-fork\\mediumblog1.txt", encoding="utf-8")
     document = loader.load()
 
     print("splitting...")
